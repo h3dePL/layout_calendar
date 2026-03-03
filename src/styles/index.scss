@@ -1,3 +1,5 @@
+@use "sass:list";
+
 $days-in-month: 31;
 $cell-size: 100px;
 $gap-size: 1px;
@@ -20,11 +22,10 @@ $start-days: mon, tue, wed, thu, fri, sat, sun;
 @each $start-day in $start-days {
   .calendar--start-day-#{$start-day} {
     .calendar__header-item:first-child {
-      margin-left: calc((#{index($start-days, $start-day)} - 1) * (#{$cell-size} + #{$gap-size}));
+      margin-left: calc((#{list.index($start-days, $start-day)} - 1) * (#{$cell-size} + #{$gap-size}));
     }
   }
 }
-
 
 body {
   margin: 0;
