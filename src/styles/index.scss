@@ -1,4 +1,7 @@
 $days-in-month: 31;
+$cell-size: 100px;
+$gap-size: 1px;
+$start-days: mon, tue, wed, thu, fri, sat, sun;
 
 @for $day from 1 through $days-in-month {
   .calendar__header-item:nth-child(#{$day})::before {
@@ -6,18 +9,35 @@ $days-in-month: 31;
   }
 }
 
+@for $length from 28 through 31 {
+  .calendar--month-length-#{$length} {
+    .calendar__header-item:nth-child(n + #{$length + 1}) {
+      display: none;
+    }
+  }
+}
+
+@each $start-day in $start-days {
+  .calendar--start-day-#{$start-day} {
+    .calendar__header-item:first-child {
+      margin-left: calc((#{index($start-days, $start-day)} - 1) * (#{$cell-size} + #{$gap-size}));
+    }
+  }
+}
+
+
 body {
   margin: 0;
 }
 
 .calendar__header {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   padding: 20px;
   flex-wrap: wrap;
   gap: 1px;
-  width: calc(7 * 100px + 6 * 1px);
+  width: calc(7 * #{$cell-size} + 6 * #{$gap-size});
 }
 
 .calendar__header-item {
@@ -25,8 +45,8 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  width: 100px;
-  height: 100px;
+  width: $cell-size;
+  height: $cell-size;
   border: 1px solid black;
   background-color: #eee;
   box-sizing: border-box;
@@ -39,8 +59,8 @@ body {
 
 .calendar__header-item:hover {
   display: block;
-  width: 100px;
-  height: 100px;
+  width: $cell-size;
+  height: $cell-size;
   background-color: gray;
   cursor: pointer;
 }
